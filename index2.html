@@ -38,7 +38,9 @@
             margin: 0 auto;
             max-width: 600px;
             color: #2d3a3f;
-            padding-top: 60px;
+            padding-top: 0px;
+            float: left;
+            display: inline-block;
         }
 
         a, a:visited, a:hover {
@@ -108,6 +110,8 @@
         .device-container {
             text-align: center;
             display: inline-block;
+            margin: 10px;
+            outline: 1px solid black;
         }
 
         .device-box{
@@ -117,6 +121,11 @@
             background-position-x: 100%;
         }
 
+        
+        input.radio{
+            margin-top: 10px;
+        }
+        
         .w320 {
             width: 320px;
         }
@@ -172,6 +181,45 @@
     </head>
 
     <body>
+        <div class="container">
+            <div class="box">
+                <p>
+                    <a href="#" id="button" class="btn box">Click for a new pattern</a>
+                </p>
+                <div id="controls" class="hidden" style="">
+                    <ul>
+                        <li>x gradient colors <textarea id="xgradient">["#fcc5c0", "#fa9fb5", "#f768a1", "#c51b8a", "#7a0177"]</textarea> </li>
+                        <li>y gradient colors <textarea id="ygradient"></textarea> </li>
+                        <li>brightness map  <input class="rangeslider" id="brightness-map-range" type="range" name="" min="0" max="100"></li>
+                        <li>Cellsize: <a href="#" id="subtractcellsize" class="btn box small">-</a><span id="cellsize">0</span><a href="#" id="addcellsize" class="btn box small">+</a></li>
+                        <li>Cellpadding: <a href="#" id="subtractcellpadding" class="btn box small">-</a><span id="cellpadding">0</span><a href="#" id="addcellpadding" class="btn box small" title="cellpadding must be smaller than cellsize/2">+</a></li>
+                    </ul>
+                </div>
+                <p>
+                    <a href="#" id="togglecontrols" class="btn box small">show controls</a>
+                </p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="box">
+                <p>
+                    Dj approved colors
+                </p>
+                <div id="" class="" style="text-align: left;">
+                    <button type="button" class="button button-color-select" data-color='["#A5E8C9", "#61D979", "#119800"]'>Bright Green 1</button>
+                    <br />
+                    <button type="button" class="button button-color-select" data-color='["#fcc5c0", "#fa9fb5", "#f768a1", "#c51b8a"]'>Bright Pink 1</button>
+                    <br />
+                    <button type="button" class="button button-color-select" data-color='["#E5C3FF", "#F58DFF", "#F35FD3", "#F81E8F", "#E90A7B"]'>Bright Pink 2</button>
+                    <br />
+                    <button type="button" class="button button-color-select" data-color='["#B2D8F8", "#73B9F2", "#0772CF"]'>Bright Blue 1</button>
+                    <br />
+                    <button type="button" class="button button-color-select" data-color='["#FEC0A0", "#FE8C44", "#F12300"]'>Bright Orange Red 1</button>
+                    <br />
+                    <button type="button" class="button button-color-select" data-color='["#FFE892", "#FED200", "#FEB600"]'>Bright Yellow 1</button>
+                </div>
+            </div>
+        </div>
         <div class="device-container" data-cellsize="55"><h4>320 x 100<a href="#" id="saveas-1" target="_blank" class="download btn box" title="right click > save as svg" download="trianglify-background.svg">SVG</a></h4>
             <div id="test-box-1" class="device-box w320 h100" style=""></div>
         </div>
@@ -184,33 +232,19 @@
         <div class="device-container" data-cellsize="110"><h4>320 x 568<a href="#" id="saveas-3" target="_blank" class="download btn box" title="right click > save as svg" download="trianglify-background.svg">SVG</a></h4>
             <div id="test-box-3" class="device-box w320 h568" style=""></div>
         </div>
-        <div class="container">
+        
+        <div class="container" style="float: none; display: block;">
             <div class="box">
+
+                <footer>
+                                    
                 <p>Trianglify is a javascript library for generating colorful triangle meshes that can be used as SVG images and CSS backgrounds.</p>
                 <p>Trianglify is open source software. Check it out on <a href="https://github.com/qrohlf/trianglify">Github</a>!</p>
-                <p>Made by <a href="http://qrohlf.com/">Quinn Rohlf</a></p>
-                <p>
-                    <a href="#" id="button" class="btn box">Click for a new pattern</a>
-<!--                     <a href="#" id="saveas" target="_blank" class="download btn box" title="right click > save as svg" download="trianglify-background.svg">SVG</a> -->
-                    <!-- <a href="https://cloudconvert.org/svg-to-png" target="_blank" class="download btn box">PNG</a> -->
-                </p>
-                <div id="controls" class="">
-                    <ul>
-                        <li>x gradient colors <textarea id="xgradient">["#fcc5c0", "#fa9fb5", "#f768a1", "#c51b8a", "#7a0177"]</textarea> </li>
-                        <li>y gradient colors <textarea id="ygradient"></textarea> </li>
-                        <li>brightness map  <input class="rangeslider" id="brightness-map-range" type="range" name="" min="0" max="200"></li>
-                        <li>Noise: <a href="#" id="subtractnoise" class="btn box small">-</a><span id="noise">0</span><a href="#" id="addnoise" class="btn box small">+</a></li>
-                        <li>Cellsize: <a href="#" id="subtractcellsize" class="btn box small">-</a><span id="cellsize">0</span><a href="#" id="addcellsize" class="btn box small">+</a></li>
-                        <li>Cellpadding: <a href="#" id="subtractcellpadding" class="btn box small">-</a><span id="cellpadding">0</span><a href="#" id="addcellpadding" class="btn box small" title="cellpadding must be smaller than cellsize/2">+</a></li>
-                    </ul>
-                    <p>Note: noise effect will cause rendering to take longer</p>
-                </div>
-                <p>
-                    <a href="#" id="togglecontrols" class="btn box small">show controls</a>
-                </p>
-                <footer>
+                <p>Original tool made by <a href="http://qrohlf.com/">Quinn Rohlf</a><br />
+                Modified by Dag jomar Mersland</p>
+
                     <iframe src="http://ghbtns.com/github-btn.html?user=qrohlf&amp;repo=trianglify&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
-                    <a href="https://twitter.com/qrohlf" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @qrohlf</a>
+                    <a href="https://twitter.com/dagjomar" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @dagjomar</a>
                 </footer>
             </div>
         </div>
@@ -222,7 +256,7 @@
     Good colors:
 
     Pinkish-purple-ish
-    Trianglify.colorbrewer.RdPu[9]
+    Trianglify.colorbrewer.RdPu[9] (better without first bright color - deprecated)
     ["#fff7f3", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e", "#7a0177", "#49006a"]
 
     Light green-ish some blueish
@@ -262,9 +296,6 @@
         var t = new Trianglify({cellsize: 25, cellpadding: 5});
         var button = document.getElementById('button'),
             saveas = document.getElementById('saveas'),
-            subtractnoise = document.getElementById('subtractnoise'),
-            addnoise = document.getElementById('addnoise'),
-            noise_display = document.getElementById('noise'),
             subtractcellsize = document.getElementById('subtractcellsize'),
             addcellsize = document.getElementById('addcellsize'),
             cellsize_display = document.getElementById('cellsize'),
@@ -277,10 +308,22 @@
 
             var globalCellsize = 55;
             var globalCellpadding = 0;
-            var brightnessrangevalue = 1;
+            var brightnessrangevalue = 0;
             brightnessrangeslider.value = brightnessrangevalue * 100;
 
+            //Setup click actions for color select buttons
+            var buttons = document.getElementsByClassName("button-color-select");
+            
+            for(var i = buttons.length-1; i >= 0; i--){
+                var el = buttons[i];
 
+                el.addEventListener('click', function(){
+                    var color = this.getAttribute("data-color");
+                    setXGradient(color);
+                });
+            }
+            
+            
             brightnessrangeslider.addEventListener('input', function()
             {
                 
@@ -292,14 +335,6 @@
         button.onclick = function() {
             recolor();
             redraw();
-            return false;
-        };
-        addnoise.onclick = function() {
-            noise(0.2);
-            return false;
-        };
-        subtractnoise.onclick = function() {
-            noise(-0.2);
             return false;
         };
         addcellsize.onclick = function() {
@@ -334,6 +369,15 @@
         recolor();
         redraw();
 
+        function setXGradient(str){
+            
+            
+            document.getElementById("xgradient").value = str;
+            
+            recolor();
+            redraw();
+        }
+            
         function redrawContainer(container){
             var el = container.el;
             console.log("drawing "+el.clientWidth+"x"+height(el));
@@ -347,7 +391,6 @@
             //document.body.setAttribute('style', 'background-image: '+pattern.dataUrl);
             el.setAttribute('style', 'background-image: '+pattern.dataUrl);
             container.saveas.setAttribute('href', pattern.dataUri);
-            noise_display.innerHTML = t.options.noiseIntensity.toFixed(1);
             cellsize_display.innerHTML = globalCellsize.toFixed(0);
             cellpadding_display.innerHTML = globalCellpadding.toFixed(0);
         }
@@ -381,16 +424,6 @@
 ;
         }
 
-        function noise(i) {
-            i += t.options.noiseIntensity;
-            if (i >= 0 && i <= 1) {
-                t.options.noiseIntensity = i;
-                redraw();
-            } else if (i < 0) {
-                t.options.noiseIntensity = 0;
-                redraw();
-            }
-        }
 
         function cellsize(i) {
             i += globalCellsize;
