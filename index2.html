@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="low poly style background generator with d3.js">
+    <meta name="author" content="@qrohlf">
+    <link rel="shortcut icon" href="/lair/favicon.png">
+    <meta property="og:image" content="http://qrohlf.com/trianglify/examples/example1.jpg" />
+
+    <title>ActiGrid Trianglify Generator by @dagjomar forked from @qrohlf</title></title>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:400' type='text/css'>
+
+    <style type="text/css">
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            position: relative;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            background-color: #34495e;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 100% 100%;
+            position: relative;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+        }
+
+        .container {
+            text-align: center;
+            margin: 0 auto;
+            max-width: 600px;
+            color: #2d3a3f;
+            padding-top: 60px;
+        }
+
+        a, a:visited, a:hover {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding-top: 60px;
+            }
+        }
+
+        .box {
+            display: block;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 3px;
+            margin: 10px 5px;
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn.box {
+            padding: 10px 20px;
+            display: inline-block;
+            /*color: #eee;
+            background-color: #3d566e;*/
+            background-color: #fefefe;
+            text-decoration: none;
+        }
+
+        .btn.box.small {
+            padding: 5px 10px;
+        }
+
+        #controls ul {
+            list-style-type: none;
+            margin: 0 auto;
+            padding: 0;
+            text-align: right;
+            display: table;
+        }
+        #controls li {
+            display: table-row;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .download::before {
+            display: inline-block;
+            content: '';
+            height: 16px;
+            width: 16px;
+            margin-right: 10px;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABQElEQVQ4T92TMU7DQBBFZ7zbUOEbkBtgQQ7gBsmp4hpB2BuQI8ANwgnYWIjarmJEwwEc4SOEG4SKZjfDrKMgO2yiSHS4W83M+zPzxwh//HBffX8wIhevZtnOvP8IOEuuVYD46NsNEUznZabaMe8OfBBfsQN1AOeDqxQpOK3K7L4N2RT3k9EdELxXL1mx6QKji8tISnFDgIppIQF9WGPT+vW5dhAEjF3bLk9IkfP7hL1dIpA2xk7Rec0Kn0zMrTUTV7jvNhqQkGPOSRHheA1gIhAxwD4cBhC3gJi6jhtAW5FpC55zYjEo6lIvXCxKVE/QasgbG7Nqr+PCNqADA8qRIGS1eNdYzRKFlIpVlZvpkH+r2RmCtsboXzYCsRuIQ/8hUQFIej57yn9s9CVGsQqDI6u4/ebqiNVWX0LXb3q5nf8Nymmadx3ne7YAAAAASUVORK5CYII=);
+        }
+
+        .rangeslider {
+            width: 100px;
+        }
+
+        .device-container {
+            text-align: center;
+            display: inline-block;
+        }
+
+        .device-box{
+            border: 0px solid #999; margin: 10px;
+            background-size: cover;
+            background-position-y: 100%;
+            background-position-x: 100%;
+        }
+
+        .w320 {
+            width: 320px;
+        }
+        .w360 {
+            width: 360px;
+        }
+        .w640 {
+            width: 640px;
+        }
+
+        .h100 {
+            height: 140px;
+        }
+        .h140 {
+            height: 140px;
+        }
+        .h180 {
+            height: 180px;
+        }
+        .h200 {
+            height: 200px;
+        }
+        .h260 {
+            height: 260px;
+        }
+        .h300 {
+            height: 300px;
+        }
+        .h320 {
+            height: 320px;
+        }
+        .h360 {
+            height: 360px;
+        }
+        .h480 {
+            height: 480px;
+        }
+        .h568 {
+            height: 568px;
+        }
+        .h640 {
+            height: 640px;
+        }
+        .h720 {
+            height: 720px;
+        }
+        .h960 {
+            height: 960px;
+        }
+
+
+    </style>
+    </head>
+
+    <body>
+        <div class="device-container" data-cellsize="55"><h4>320 x 100<a href="#" id="saveas-1" target="_blank" class="download btn box" title="right click > save as svg" download="trianglify-background.svg">SVG</a></h4>
+            <div id="test-box-1" class="device-box w320 h100" style=""></div>
+        </div>
+        <div class="device-container"><h4>320 x 200<a href="#" id="saveas-2" target="_blank" class="download btn box" title="right click > save as svg" download="trianglify-background.svg">SVG</a></h4>
+            <div id="test-box-2" class="device-box w320 h200" style=""></div>
+        </div>
+        <div class="device-container"><h4>320 x 300<a href="#" id="saveas-3" target="_blank" class="download btn box" title="right click > save as svg" download="trianglify-background.svg">SVG</a></h4>
+            <div id="test-box-3" class="device-box w320 h300" style=""></div>
+        </div>
+        <div class="device-container" data-cellsize="110"><h4>320 x 568<a href="#" id="saveas-3" target="_blank" class="download btn box" title="right click > save as svg" download="trianglify-background.svg">SVG</a></h4>
+            <div id="test-box-3" class="device-box w320 h568" style=""></div>
+        </div>
+        <div class="container">
+            <div class="box">
+                <p>Trianglify is a javascript library for generating colorful triangle meshes that can be used as SVG images and CSS backgrounds.</p>
+                <p>Trianglify is open source software. Check it out on <a href="https://github.com/qrohlf/trianglify">Github</a>!</p>
+                <p>Made by <a href="http://qrohlf.com/">Quinn Rohlf</a></p>
+                <p>
+                    <a href="#" id="button" class="btn box">Click for a new pattern</a>
+<!--                     <a href="#" id="saveas" target="_blank" class="download btn box" title="right click > save as svg" download="trianglify-background.svg">SVG</a> -->
+                    <!-- <a href="https://cloudconvert.org/svg-to-png" target="_blank" class="download btn box">PNG</a> -->
+                </p>
+                <div id="controls" class="">
+                    <ul>
+                        <li>x gradient colors <textarea id="xgradient">["#fcc5c0", "#fa9fb5", "#f768a1", "#c51b8a", "#7a0177"]</textarea> </li>
+                        <li>y gradient colors <textarea id="ygradient"></textarea> </li>
+                        <li>brightness map  <input class="rangeslider" id="brightness-map-range" type="range" name="" min="0" max="200"></li>
+                        <li>Noise: <a href="#" id="subtractnoise" class="btn box small">-</a><span id="noise">0</span><a href="#" id="addnoise" class="btn box small">+</a></li>
+                        <li>Cellsize: <a href="#" id="subtractcellsize" class="btn box small">-</a><span id="cellsize">0</span><a href="#" id="addcellsize" class="btn box small">+</a></li>
+                        <li>Cellpadding: <a href="#" id="subtractcellpadding" class="btn box small">-</a><span id="cellpadding">0</span><a href="#" id="addcellpadding" class="btn box small" title="cellpadding must be smaller than cellsize/2">+</a></li>
+                    </ul>
+                    <p>Note: noise effect will cause rendering to take longer</p>
+                </div>
+                <p>
+                    <a href="#" id="togglecontrols" class="btn box small">show controls</a>
+                </p>
+                <footer>
+                    <iframe src="http://ghbtns.com/github-btn.html?user=qrohlf&amp;repo=trianglify&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
+                    <a href="https://twitter.com/qrohlf" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @qrohlf</a>
+                </footer>
+            </div>
+        </div>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="trianglify.js"></script>
+        <script>
+
+        /*
+    Good colors:
+
+    Pinkish-purple-ish
+    Trianglify.colorbrewer.RdPu[9]
+    ["#fff7f3", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e", "#7a0177", "#49006a"]
+
+    Light green-ish some blueish
+    Trianglify.colorbrewer.BuGn[5]
+    ["#edf8fb", "#b2e2e2", "#66c2a4", "#2ca25f", "#006d2c"]
+
+    Reds without lightest and darkest
+    ["#fcbba1", "#fc9272", "#fb6a4a", "#de2d26"]
+
+    RedPurple without lightest
+    ["#fcc5c0", "#fa9fb5", "#f768a1", "#c51b8a", "#7a0177"]
+
+    RedPurple withouth lightest and darkest
+    ["#fcc5c0", "#fa9fb5", "#f768a1", "#c51b8a"]
+
+
+    Welcome-screen-purple-pink
+    ["#E5C3FF", "#F58DFF", "#F35FD3", "#F81E8F", "#E90A7B"]
+        */
+        var containers = [];
+
+        var containerEls = document.getElementsByClassName("device-container");
+        for(var n = 0; n < containerEls.length; n++){
+            var cellsize = containerEls[n].getAttribute("data-cellsize") || 55;
+            var cellpadding = containerEls[n].getAttribute("data-cellpadding") || 0;
+            var ratio = containerEls[n].getAttribute("data-ratio") || 1;
+            console.log('cellsize: ' + cellsize);
+            containers.push( {el: containerEls[n], cellsize: cellsize, cellpadding: cellpadding, ratio: ratio, saveas: document.getElementsByClassName("download")[n]} );
+        }
+
+        // var containers = [ 
+        //     {el: document.getElementById("test-box-1"), ratio: 1, saveas: document.getElementById("saveas-1")},
+        //     {el: document.getElementById("test-box-2"), ratio: 1, saveas: document.getElementById("saveas-2")},
+        //     {el: document.getElementById("test-box-3"), ratio: 1, saveas: document.getElementById("saveas-3")}
+        //  ];
+
+        var t = new Trianglify({cellsize: 25, cellpadding: 5});
+        var button = document.getElementById('button'),
+            saveas = document.getElementById('saveas'),
+            subtractnoise = document.getElementById('subtractnoise'),
+            addnoise = document.getElementById('addnoise'),
+            noise_display = document.getElementById('noise'),
+            subtractcellsize = document.getElementById('subtractcellsize'),
+            addcellsize = document.getElementById('addcellsize'),
+            cellsize_display = document.getElementById('cellsize'),
+            subtractcellpadding = document.getElementById('subtractcellpadding'),
+            addcellpadding = document.getElementById('addcellpadding'),
+            cellpadding_display = document.getElementById('cellpadding'),
+            toggle_controls = document.getElementById('togglecontrols'),
+            controls = document.getElementById('controls'),
+            brightnessrangeslider = document.getElementById('brightness-map-range');
+
+            var globalCellsize = 55;
+            var globalCellpadding = 0;
+            var brightnessrangevalue = 1;
+            brightnessrangeslider.value = brightnessrangevalue * 100;
+
+
+            brightnessrangeslider.addEventListener('input', function()
+            {
+                
+                brightnessrangevalue = brightnessrangeslider.value / 100; //Range is from 0 to 100, so divide to get a decimaal percentage number
+                redrawBrightness(brightnessrangevalue);
+                
+            });
+
+        button.onclick = function() {
+            recolor();
+            redraw();
+            return false;
+        };
+        addnoise.onclick = function() {
+            noise(0.2);
+            return false;
+        };
+        subtractnoise.onclick = function() {
+            noise(-0.2);
+            return false;
+        };
+        addcellsize.onclick = function() {
+            cellsize(10);
+            return false;
+        };
+        subtractcellsize.onclick = function() {
+            cellsize(-10);
+            return false;
+        };
+        addcellpadding.onclick = function() {
+            cellpadding(5);
+            return false;
+        };
+        subtractcellpadding.onclick = function() {
+            cellpadding(-5);
+            return false;
+        };
+        toggle_controls.onclick = function() {
+            toggle_controls.innerHTML = toggleClass(controls, "hidden") ? "show controls":"hide controls";
+            return false;
+        };
+
+        function redrawBrightness(val){
+            var y_gradient = t.options.x_gradient.map(function(c){return d3.rgb(c).brighter(brightnessrangevalue);});
+
+            t.options.y_gradient = y_gradient;
+            redraw();
+        };
+
+
+        recolor();
+        redraw();
+
+        function redrawContainer(container){
+            var el = container.el;
+            console.log("drawing "+el.clientWidth+"x"+height(el));
+
+            //Set pattern options
+            t.options.cellpadding = container.cellpadding;
+            t.options.cellsize = container.cellsize;
+            t.options.bleed = t.options.cellsize;
+
+            var pattern = t.generate(el.clientWidth * container.ratio, height(el) * container.ratio);
+            //document.body.setAttribute('style', 'background-image: '+pattern.dataUrl);
+            el.setAttribute('style', 'background-image: '+pattern.dataUrl);
+            container.saveas.setAttribute('href', pattern.dataUri);
+            noise_display.innerHTML = t.options.noiseIntensity.toFixed(1);
+            cellsize_display.innerHTML = globalCellsize.toFixed(0);
+            cellpadding_display.innerHTML = globalCellpadding.toFixed(0);
+        }
+
+        function redraw() {
+            for(var i = 0; i < containers.length; i++){
+                redrawContainer(containers[i]);
+            }
+            
+        }
+
+        function recolor() {
+            var x_gradient = document.getElementById("xgradient").value;
+            console.log('got x_gradient:', x_gradient);
+
+            if(x_gradient.length === 0) x_gradient = Trianglify.randomColor();
+            else{
+                x_gradient = JSON.parse(x_gradient);
+                console.log('parsed x_gradient color: ', x_gradient);
+            }
+            t.options.x_gradient = x_gradient;
+            
+            var y_gradient = document.getElementById("ygradient").value;
+           if(y_gradient.length === 0){
+                y_gradient = x_gradient.map(function(c){return d3.rgb(c);});
+           }else{
+                y_gradient = x_gradient.map(function(c){return d3.rgb(c).brighter(brightnessrangevalue);});
+           }
+
+            t.options.y_gradient = y_gradient;
+;
+        }
+
+        function noise(i) {
+            i += t.options.noiseIntensity;
+            if (i >= 0 && i <= 1) {
+                t.options.noiseIntensity = i;
+                redraw();
+            } else if (i < 0) {
+                t.options.noiseIntensity = 0;
+                redraw();
+            }
+        }
+
+        function cellsize(i) {
+            i += globalCellsize;
+            if (i >= 0) {
+                globalCellsize = i;
+
+                if (globalCellpadding >= globalCellsize/2) {
+                    globalCellpadding = 5*Math.floor((globalCellsize/2 - 1)/5);
+                }
+                redraw();
+            }
+        }
+
+        function cellpadding(i) {
+            i += globalCellpadding;
+            if (i >= 0  && i < globalCellsize/2) {
+                globalCellpadding = i;
+                redraw();
+            }
+        }
+
+        function height(el) {
+            return Math.max(
+                el.scrollHeight, el.scrollHeight,
+                el.offsetHeight, el.offsetHeight,
+                el.clientHeight, el.clientHeight
+            );
+        }
+
+        function toggleClass(el, className) {
+            if (el.classList) {
+              return el.classList.toggle(className);
+            } else {
+              var classes = el.className.split(' ');
+              var existingIndex = classes.indexOf(className);
+
+              if (existingIndex >= 0)
+                classes.splice(existingIndex, 1);
+              else
+                classes.push(className);
+
+              el.className = classes.join(' ');
+              return existingIndex >= 0;
+            }
+        }
+        // analytics
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-40241848-1', 'qrohlf.com');
+        ga('send', 'pageview');
+        </script>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </body>
+</html>
